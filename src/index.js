@@ -5,4 +5,5 @@ var reporterData = require('../data/reporter-sample.json');
 
 var stats = reporter.getStats(reporterData);
 
-console.log(stats);
+// console.log(stats);
+reporter.printMainTokens(stats.questions);
