@@ -9,20 +9,50 @@
  * Augment `questions` with the `tokens` (token => count) object
  */
 var extractTokens = function(snapshots, questions) {
+  /**
+   * Each kind of questions has a different
+   * way of representing answers
+   */
+  var extractors = {
+    /**
+     * Token-based answer (multiple tokens)
+     * E.g. "What are you doing?"
+     */
+    0: function(response) {
+      if(!response.tokens) {
+        return [];
+      }
 
+      return response.tokens.map(function(t) { return t.text; });
+    },
+     /**
+     * Location-based answer (single location)
+     * E.g. "Where are you?"
+     */
+    3: function(response) {
+      if(!response.locationResponse || !response.locationResponse.text) {
+        return [];
+      }
+
+      return [response.locationResponse.text];
+    }
+  };
+
+  // For each question
   questions.forEach(function(q, i) {
-    if(q.questionType !== 0) {
+    if(!(q.questionType in extractors)) {
       // TODO: support other kind of question types
       return;
     }
 
     questions[i].tokens = {};
     var question = q.prompt;
+    var extractTokens = extractors[q.questionType];
 
     snapshots.forEach(function(s) {
       s.responses.forEach(function(r) {
-        if(r.questionPrompt === question && r.tokens) {
-          var tokens = r.tokens.map(function(t) { return t.text; });
+        if(r.questionPrompt === question) {
+          var tokens = extractTokens(r);
           tokens.forEach(function(t) {
             if(!questions[i].tokens[t]) {
               questions[i].tokens[t] = 0;
