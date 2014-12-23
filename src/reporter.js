@@ -22,7 +22,6 @@ var extractTokens = function(snapshots, questions) {
       if(!response.tokens) {
         return [];
       }
-
       return response.tokens.map(function(t) { return t.text; });
     },
      /**
@@ -33,8 +32,17 @@ var extractTokens = function(snapshots, questions) {
       if(!response.locationResponse || !response.locationResponse.text) {
         return [];
       }
-
       return [response.locationResponse.text];
+    },
+     /**
+     * People-based answer (multiple persons)
+     * E.g. "Who are you with?"
+     */
+    4: function(response) {
+      if(!response.tokens) {
+        return [];
+      }
+      return response.tokens.map(function(t) { return t.text; });
     }
   };
 
@@ -103,6 +111,7 @@ var printMainTokens = function(questions, n) {
       var t = tokens[i];
       console.log('  ' + t + ' (' + q.tokens[t] + ')');
     }
+    console.log();
   });
 };
 
