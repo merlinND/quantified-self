@@ -53,6 +53,7 @@ var extractTokens = function(snapshots, questions) {
       return;
     }
 
+    questions[i].occurrences = 0;
     questions[i].tokens = {};
     var question = q.prompt;
     var extractTokens = extractors[q.questionType];
@@ -60,6 +61,7 @@ var extractTokens = function(snapshots, questions) {
     snapshots.forEach(function(s) {
       s.responses.forEach(function(r) {
         if(r.questionPrompt === question) {
+          questions[i].occurrences += 1;
           var tokens = extractTokens(r);
           tokens.forEach(function(t) {
             if(!questions[i].tokens[t]) {
@@ -109,7 +111,12 @@ var printMainTokens = function(questions, n) {
 
     for(var i = tokens.length - 1; i >= 0 && i > (tokens.length - n); i -= 1) {
       var t = tokens[i];
-      console.log('  ' + t + ' (' + q.tokens[t] + ')');
+      var count = q.tokens[t];
+      var proportion = (count / q.occurrences) * 100;
+
+      console.log('  ' + t +
+        ' (' + count +
+        ' | ' + proportion.toFixed(1) + '%)');
     }
     console.log();
   });
