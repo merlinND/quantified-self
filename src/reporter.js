@@ -24,6 +24,16 @@ var extractTokens = function(snapshots, questions) {
       }
       return response.tokens.map(function(t) { return t.text; });
     },
+    /**
+     * Restricted options answer
+     * E.g. "Are you working?"
+     */
+    1: function(response) {
+      if(!response.answeredOptions) {
+        return [];
+      }
+      return response.answeredOptions;
+    },
      /**
      * Location-based answer (single location)
      * E.g. "Where are you?"
@@ -43,8 +53,34 @@ var extractTokens = function(snapshots, questions) {
         return [];
       }
       return response.tokens.map(function(t) { return t.text; });
+    },
+     /**
+     * Numeric answer (single number)
+     * E.g. "How many teapots did you drink today?"
+     */
+    5: function(response) {
+      if(!response.numericResponse) {
+        return [];
+      }
+      return [response.numericResponse];
+    },
+     /**
+     * Free text answer
+     * E.g. "What did you learn today?"
+     */
+    6: function(response) {
+      if(!response.textResponses) {
+        return [];
+      }
+      return response.textResponses.map(function(t) { return t.text; });
     }
   };
+  /**
+   * Yes / No answer
+   * E.g. "Did you code today?"
+   */
+  extractors[2] = extractors[1];
+
 
   // For each question
   questions.forEach(function(q, i) {
