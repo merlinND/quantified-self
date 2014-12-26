@@ -150,9 +150,16 @@ var printMainTokens = function(questions, n) {
       var count = q.tokens[t];
       var proportion = (count / q.occurrences) * 100;
 
-      console.log('  ' + t +
-        ' (' + count +
-        ' | ' + proportion.toFixed(1) + '%)');
+      var spaces = ' ';
+      if(proportion < 100) {
+        spaces += ' ';
+      }
+      if(proportion < 10) {
+        spaces += ' ';
+      }
+
+      console.log(spaces + proportion.toFixed(1) + '% | ' +
+        t + ' (' + count + ')');
     }
     console.log();
   });
