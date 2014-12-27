@@ -113,6 +113,24 @@ var extractTokens = function(snapshots, questions) {
 
 
 /**
+ * A collection of filters that can be applied
+ * to a list of snapshots.
+ */
+var filters = {
+  /**
+   * Example filter: require a given battery level
+   * @param `minLevel` Battery level (0..1)
+   */
+  hasBatteryLevel: function(minLevel) {
+    return function(snapshot) {
+      return snapshot.battery && snapshot.battery >= minLevel;
+    };
+  }
+};
+filters.hasFullBattery = filters.hasBatteryLevel(1);
+
+
+/**
  * Get simple stats (number of entries, etc)
  */
 var getStats = function(data) {
@@ -121,6 +139,7 @@ var getStats = function(data) {
   extractTokens(snapshots, questions);
 
   var stats = {
+    snapshots: snapshots,
     entryCount: snapshots.length,
     questions: questions
   };
@@ -167,5 +186,6 @@ var printMainTokens = function(questions, n) {
 
 module.exports = {
   getStats: getStats,
-  printMainTokens: printMainTokens
+  printMainTokens: printMainTokens,
+  filters: filters
 };

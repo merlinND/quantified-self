@@ -8,5 +8,7 @@ var reporterData = require('../data/' + reporterFilename);
 
 var stats = reporter.getStats(reporterData);
 
-// console.log(stats);
-reporter.printMainTokens(stats.questions, 10);
+var snapshots = stats.snapshots.filter(reporter.filters.hasFullBattery);
+
+console.log(snapshots.length);
+// reporter.printMainTokens(stats.questions, 10);
