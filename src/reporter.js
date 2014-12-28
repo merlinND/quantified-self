@@ -4,6 +4,21 @@
  * Expected format: JSON
  */
 
+/*
+ * Enumeration of the "report impetus" available:
+ *   - 0: voluntary reporting
+ *   - 1: ?
+ *   - 2: random sample
+ *   - 3: going to sleep
+ *   - 4: just woke up
+ */
+var reasons = {
+  VOLUNTARY: 0,
+  RANDOM: 2,
+  SLEEP: 3,
+  WAKE: 4
+};
+
 /**
  * For each question, extract all tokens (and their count)
  * Augment `questions` with the `tokens` (token => count) object
@@ -125,6 +140,19 @@ var filters = {
     return function(snapshot) {
       return snapshot.battery && snapshot.battery >= minLevel;
     };
+  },
+  /**
+   * @param `reason` Should be one of:
+   *   - 0: voluntary reporting
+   *   - 1: ?
+   *   - 2: random sample
+   *   - 3: going to sleep
+   *   - 4: just woke up
+   */
+  wasTriggeredBy: function(reason) {
+    return function(snapshot) {
+      return (snapshot.reportImpetus === reason);
+    };
   }
 };
 filters.hasFullBattery = filters.hasBatteryLevel(1);
@@ -187,5 +215,6 @@ var printMainTokens = function(questions, n) {
 module.exports = {
   getStats: getStats,
   printMainTokens: printMainTokens,
-  filters: filters
+  filters: filters,
+  reasons: reasons
 };
