@@ -141,6 +141,7 @@ var filters = {
       return snapshot.battery && snapshot.battery >= minLevel;
     };
   },
+
   /**
    * @param `reason` Should be one of:
    *   - 0: voluntary reporting
@@ -153,7 +154,26 @@ var filters = {
     return function(snapshot) {
       return (snapshot.reportImpetus === reason);
     };
-  }
+  },
+
+  /**
+   * Select snapshots which were triggered in the time
+   * interval between `start` (included) and `end` (excluded).
+   * @param `start` Date object
+   * @param [`end`] Date object (optional)
+   *   If omitted, will include snapshots up to the most recent.
+   */
+  byDate: function(start, end) {
+    // TODO: support selecting by day, day of the week, hour of the day, etc
+    return function(snapshot) {
+      var d = new Date(snapshot.date);
+      if(!end) {
+        return (d >= start);
+      }
+
+      return (d >= start) && (d < end);
+    };
+  },
 };
 filters.hasFullBattery = filters.hasBatteryLevel(1);
 
