@@ -176,7 +176,21 @@ var filters = {
   },
 };
 filters.hasFullBattery = filters.hasBatteryLevel(1);
+filters.byDay = function(date) {
+  var start = date;
+  start.setHours(0);
+  start.setMinutes(0);
+  start.setSeconds(0);
+  var end = new Date(start.getTime() + 1000 * 60 * 60 * 24);
 
+  return filters.byDate(start, end);
+};
+filters.happenedBefore = function(date) {
+  return filters.byDate(new Date(0), date);
+};
+filters.happenedAfter = function(date) {
+  return filters.byDate(date);
+};
 
 /**
  * Get simple stats (number of entries, etc)
