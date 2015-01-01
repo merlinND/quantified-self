@@ -174,6 +174,19 @@ var filters = {
       return (d >= start) && (d < end);
     };
   },
+
+  /**
+   * Select snapshots which were triggered on the same
+   * day of the week as `day`
+   * @param `date` 0..6 Day of the week,
+   *   where 0 is Sunday and 6 is Saturday
+   */
+  byDayOfTheWeek: function(day) {
+    return function(snapshot) {
+      var d = new Date(snapshot.date);
+      return (d.getDay() === day);
+    };
+  }
 };
 filters.hasFullBattery = filters.hasBatteryLevel(1);
 filters.byDay = function(date) {

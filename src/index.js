@@ -6,17 +6,22 @@ var Reporter = require('./reporter.js');
 var reporterFilename = 'reporter-2014-12-19.json';
 var reporterData = require('../data/' + reporterFilename);
 
-var stats = Reporter.getStats(reporterData);
+// ----- Filtering
+// var start = new Date('2014-07-01 00:00');
+// var end = new Date('2014-011-01 00:00');
+var snapshots = reporterData.snapshots.filter(Reporter.filters.byDayOfTheWeek(0));
 
-var start = new Date('2014-07-01 00:00');
-var end = new Date('2014-011-01 00:00');
-var snapshots = stats.snapshots.filter(Reporter.filters.byDay(start));
-
+// ----- Display
 console.log(snapshots.length);
+// var logger = function(s) {
+//   console.log(new Date(s.date));
+// };
+// snapshots.map(logger);
 
-var logger = function(s) {
-  console.log(new Date(s.date));
+// ----- Basic analaysis
+var data = {
+  snapshots: snapshots,
+  questions: reporterData.questions
 };
-snapshots.map(logger);
-
-// Reporter.printMainTokens(stats.questions, 10);
+var stats = Reporter.getStats(data);
+Reporter.printMainTokens(stats.questions, 10);
