@@ -9,7 +9,7 @@ var reporterData = require('../data/' + reporterFilename);
 // ----- Filtering
 // var start = new Date('2014-07-01 00:00');
 // var end = new Date('2014-011-01 00:00');
-var snapshots = reporterData.snapshots.filter(Reporter.filters.byDayOfTheWeek(0));
+var snapshots = reporterData.snapshots.filter(Reporter.filters.byMonth(6));
 
 // ----- Display
 console.log(snapshots.length);

@@ -178,13 +178,30 @@ var filters = {
   /**
    * Select snapshots which were triggered on the same
    * day of the week as `day`
-   * @param `date` 0..6 Day of the week,
+   * @param `date` 0..6 Day of the week index,
    *   where 0 is Sunday and 6 is Saturday
    */
   byDayOfTheWeek: function(day) {
     return function(snapshot) {
       var d = new Date(snapshot.date);
       return (d.getDay() === day);
+    };
+  },
+
+  /**
+   * @param month 0..11 Month index,
+   *   where 0 is January and 12 is December
+   * @param [year] E.g. 2014. Optional,
+   *   If omitted, will allow any year.
+   */
+  byMonth: function(month, year) {
+    return function(snapshot) {
+      var d = new Date(snapshot.date);
+      if(year) {
+        return (d.getMonth() === month) && (d.getFullYear() === year);
+      }
+
+      return (d.getMonth() === month);
     };
   }
 };
