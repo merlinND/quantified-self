@@ -234,6 +234,7 @@ var groupBy = {
   criterion: function(snapshots, criterion) {
     var Groups = function(snapshots) {
       var self = this;
+
       snapshots.forEach(function(element) {
         var group = criterion(element);
         self[group] = self[group] || [];
@@ -241,10 +242,22 @@ var groupBy = {
       });
     };
 
-    /** Utility function */
+    /**
+     * Utility function
+     * @return List of list (i.e. simply ommit the keys)
+     */
     Groups.prototype.asList = function() {
       var self = this;
       return Object.keys(self).map(function(key) { return self[key]; });
+    };
+    /**
+     * Utility function
+     * @return List (i.e. recover a single concatenated list)
+     *
+     * @see http://stackoverflow.com/questions/10865025/merge-flatten-an-array-of-arrays-in-javascript
+     */
+    Groups.prototype.asFlatList = function() {
+      return [].concat.apply([], this.asList());
     };
 
     return new Groups(snapshots);
