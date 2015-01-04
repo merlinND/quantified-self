@@ -269,6 +269,13 @@ var groupBy = {
       return new Date(d.getFullYear(), d.getMonth(), d.getDate());
     });
   },
+
+  dayOfTheWeek: function(snapshots) {
+    return groupBy.criterion(snapshots, function(snapshot) {
+      var d = new Date(snapshot.date);
+      return d.getDay();
+    });
+  }
 };
 
 /**
