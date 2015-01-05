@@ -12,7 +12,7 @@ var reporterData = require('../data/' + reporterFilename);
 // var snapshots = reporterData.snapshots.filter(Reporter.filters.byMonth(6));
 
 // ----- Grouping
-var grouped = Reporter.groupBy.date(reporterData.snapshots);
+var grouped = Reporter.groupBy.year(reporterData.snapshots);
 var snapshots = grouped.asList();
 
 // ----- Display
@@ -20,7 +20,7 @@ console.log('Loaded `' + reporterFilename + '`.');
 console.log('Total available snapshots: ' + reporterData.snapshots.length + '\n');
 
 console.log('Recovering flat list: ' + grouped.asFlatList().length);
-console.log(snapshots.map(function(group) { return group.length; }));
+console.log(Object.keys(grouped).map(function(group) { return group; }));
 // var logger = function(s) {
 //   console.log(new Date(s.date));
 // };

@@ -270,6 +270,20 @@ var groupBy = {
     });
   },
 
+  month: function(snapshots) {
+    return groupBy.criterion(snapshots, function(snapshot) {
+      var d = new Date(snapshot.date);
+      return new Date(d.getFullYear(), d.getMonth(), 1);
+    });
+  },
+
+  year: function(snapshots) {
+    return groupBy.criterion(snapshots, function(snapshot) {
+      var d = new Date(snapshot.date);
+      return new Date(d.getFullYear(), 0, 1);
+    });
+  },
+
   dayOfTheWeek: function(snapshots) {
     return groupBy.criterion(snapshots, function(snapshot) {
       var d = new Date(snapshot.date);
