@@ -10,21 +10,26 @@ var reporterData = require('../data/' + reporterFilename);
 // var start = new Date('2014-07-01 00:00');
 // var end = new Date('2014-011-01 00:00');
 // var snapshots = reporterData.snapshots.filter(Reporter.filters.byMonth(6));
+var snapshots = reporterData.snapshots.filter(Reporter.filters.hasSpeed(0.1));
 
 // ----- Grouping
-var grouped = Reporter.groupBy.year(reporterData.snapshots);
-var snapshots = grouped.asList();
+// var grouped = Reporter.groupBy.year(reporterData.snapshots);
+// var snapshots = grouped.asList();
 
 // ----- Display
 console.log('Loaded `' + reporterFilename + '`.');
 console.log('Total available snapshots: ' + reporterData.snapshots.length + '\n');
 
-console.log('Recovering flat list: ' + grouped.asFlatList().length);
-console.log(Object.keys(grouped).map(function(group) { return group; }));
-// var logger = function(s) {
-//   console.log(new Date(s.date));
-// };
-// snapshots.map(logger);
+// console.log('Recovering flat list: ' + grouped.asFlatList().length);
+// console.log(Object.keys(grouped).map(function(group) { return group; }));
+var dateLogger = function(s) {
+  console.log(new Date(s.date));
+};
+var placeLogger = function(s) {
+  var hasLocationName = s.location && s.location.placemark && s.location.placemark.name;
+  console.log(hasLocationName ? s.location.placemark.name : '?');
+};
+snapshots.map(placeLogger);
 
 // ----- Basic analaysis
 // TODO: support grouped data

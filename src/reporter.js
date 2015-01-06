@@ -143,6 +143,42 @@ var filters = {
   },
 
   /**
+   * @param `minSpeed` Minimum speed (probably km.h^-1)
+   * @TODO Check unit
+   * @warning This measurement is probably quite inaccurate
+   */
+  hasSpeed: function(minSpeed) {
+    return function(snapshot) {
+      return snapshot.location &&
+        snapshot.location.speed &&
+        snapshot.location.speed >= minSpeed;
+    };
+  },
+
+  /**
+   * Require the snapshot to contain a named (Foursquare-type) location
+   * @warning This does not check for the "Where are you?" question
+   */
+  hasNamedLocation: function() {
+    return function(snapshot) {
+      return snapshot.location &&
+        snapshot.location.placemark &&
+        snapshot.location.placemark.name;
+    };
+  },
+
+  /**
+   * @param `location` Name (string) of the location
+   */
+  byNamedLocation: function(location) {
+    return function(snapshot) {
+      return snapshot.location &&
+        snapshot.location.placemark &&
+        snapshot.location.placemark.name === location;
+    };
+  },
+
+  /**
    * @param `reason` Should be one of:
    *   - 0: voluntary reporting
    *   - 1: ?
