@@ -1,0 +1,26 @@
+{
+  "name": "quantified-self",
+  "version": "0.0.1",
+  "homepage": "https://github.com/merlinND/quantified-self",
+  "authors": [
+    "Merlin Nimier-David <merlin.nimier@gmail.com>"
+  ],
+  "description": "Analysing self-reported data",
+  "main": "index.html",
+  "keywords": [
+    "data",
+    "machine-learning",
+    "quantified-self"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.1"
+  }
+}
