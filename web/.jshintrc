@@ -1,0 +1,10 @@
+{
+  "browser"       : true,
+  "jquery"        : true,
+  "node"          : false,
+
+  "predef"        : [
+    "$",
+    "Highcharts"
+  ]
+}
