@@ -1,1 +1,5 @@
+# Node artifacts
+node_modules/*
+
+# Input data
 data/*
