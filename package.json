@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "browserify": "~8.1.0",
-    "gulp": "~3.8.10"
+    "gulp": "~3.8.10",
+    "gulp-browserify": "~0.5.1"
   }
 }

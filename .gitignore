@@ -3,3 +3,6 @@ node_modules/*
 
 # Input data
 data/*
+
+# Compiled source
+web/dist/*
