@@ -1,18 +1,29 @@
 $(function () {
   'use strict';
 
-  // TODO: use Browserify to build app
   var drawExampleChart = require('./drawExampleChart.js');
   var handleFileInput = require('./handleFileInput.js');
 
-  var Reporter = require('../../src/reporter');
+  var drawReporterCharts = require('./drawReporterCharts.js');
 
-  console.log(Reporter);
+  var sampleData;
+  try {
+    sampleData = require('../../data/reporter-sample.json');
+  } catch(e) {
+    console.log('Sample data file not found.');
+  }
+
 
   $(document).ready(function() {
     // TODO: check for HTML5 File APIs support
-
     $('#file-input').on('change', handleFileInput);
-    drawExampleChart($('#graph-container'));
+
+    if(sampleData) {
+      drawReporterCharts(sampleData, $('#reporter-charts'));
+    }
+    else {
+      // Placeholder chart
+      drawExampleChart($('#reporter-charts'));
+    }
   });
 });
