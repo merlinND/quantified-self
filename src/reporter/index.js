@@ -48,5 +48,6 @@ var printMainTokens = function(questions, n) {
   filters: require('./filters.js'),
   groupBy: require('./groupBy.js'),
   reasons: require('./reasons.js'),
+  questionTypes: require('./questionTypes.js'),
   loggers: require('./loggers.js')
 };

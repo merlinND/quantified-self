@@ -23,7 +23,7 @@ console.log('Total available snapshots: ' + reporterData.snapshots.length + '\n'
 
 // console.log('Recovering flat list: ' + grouped.asFlatList().length);
 // console.log(Object.keys(grouped).map(function(group) { return group; }));
-snapshots.map(Reporter.loggers.place);
+// snapshots.map(Reporter.loggers.place);
 
 // ----- Basic analaysis
 // TODO: support grouped data
@@ -31,5 +31,5 @@ snapshots.map(Reporter.loggers.place);
 //   snapshots: snapshots,
 //   questions: reporterData.questions
 // };
-// var stats = Reporter.getStats(data);
-// Reporter.printMainTokens(stats.questions, 10);
+var stats = Reporter.getStats(reporterData);
+Reporter.printMainTokens(stats.questions, 10);
