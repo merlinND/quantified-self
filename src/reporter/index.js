@@ -49,5 +49,6 @@ var printMainTokens = function(questions, n) {
   groupBy: require('./groupBy.js'),
   reasons: require('./reasons.js'),
   questionTypes: require('./questionTypes.js'),
+  anonymize: require('./anonymize.js'),
   loggers: require('./loggers.js')
 };

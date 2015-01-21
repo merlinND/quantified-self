@@ -6,6 +6,9 @@ var Reporter = require('./reporter/');
 var reporterFilename = 'reporter-2014-12-19.json';
 var reporterData = require('../data/' + reporterFilename);
 
+// ----- Data anonymization
+Reporter.anonymize(reporterData.snapshots, reporterData.questions);
+
 // ----- Filtering
 // var start = new Date('2014-07-01 00:00');
 // var end = new Date('2014-011-01 00:00');
@@ -25,7 +28,7 @@ console.log('Total available snapshots: ' + reporterData.snapshots.length + '\n'
 // console.log(Object.keys(grouped).map(function(group) { return group; }));
 // snapshots.map(Reporter.loggers.place);
 
-// ----- Basic analaysis
+// ----- Basic analysis
 // TODO: support grouped data
 // var data = {
 //   snapshots: snapshots,
