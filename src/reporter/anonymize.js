@@ -1,16 +1,9 @@
 'use strict';
 
+var faker = require('faker');
 var questionTypes = require('./questionTypes.js');
 
-
-var getNewFakeName = function(realName) {
-  // TODO: fake name generation (probably from a dictionnary)
-  var fakeName = '';
-  for(var i = 0; i < realName.length; i += 1) {
-    fakeName += realName[realName.length - 1 - i];
-  }
-  return fakeName;
-};
+var getNewFakeName = faker.name.findName;
 
 /**
  * For all questions taking people names as an answer,
@@ -23,7 +16,7 @@ module.exports = function anonymize(snapshots, questions) {
   var replaceNames = function(t) {
     var realName = t.text;
     if(!names[realName]) {
-      names[realName] = getNewFakeName(realName);
+      names[realName] = getNewFakeName();
     }
 
     return {
