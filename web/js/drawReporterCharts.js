@@ -1,4 +1,3 @@
-
 var Reporter = require('../../src/reporter');
 
 var highchartsOptions = {
@@ -25,11 +24,42 @@ var highchartsOptions = {
   }
 };
 
-var addPieChart = function(title, series, container) {
-  var chart = $('<div class="reporter-pie-chart"></div>');
+var setType = function(series, type) {
+  series.forEach(function(s) {
+    s.type = type;
+  });
+};
 
+var addChart = function(container) {
+  var chart = $('<div class="reporter-pie-chart"></div>');
   container.append(chart);
+  return chart;
+};
+
+var addPieChart = function(title, series, container) {
+  var chart = addChart(container);
+
+  setType(series, 'pie');
   chart.highcharts({
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+          enabled: true,
+          format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+          style: {
+            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+          }
+        }
+      }
+    },
+    title: {
+      text: title
+    },
+    series: series
+  });
+};
     title: {
       text: title
     },
