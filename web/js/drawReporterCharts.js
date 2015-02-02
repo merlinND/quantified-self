@@ -60,6 +60,19 @@ var addPieChart = function(title, series, container) {
     series: series
   });
 };
+
+var addStackedColumns = function(title, series, container) {
+  var chart = addChart(container);
+  // setType(series, 'column');
+  chart.highcharts({
+    chart: {
+      type: 'column'
+    },
+    plotOptions: {
+      column: {
+        stacking: 'percent'
+      }
+    },
     title: {
       text: title
     },
@@ -68,7 +81,7 @@ var addPieChart = function(title, series, container) {
 };
 
 /**
- *
+ * Add and draw a graph appropriate to each question type
  */
 module.exports = function drawReporterCharts(data, container) {
   'use strict';
@@ -77,19 +90,28 @@ module.exports = function drawReporterCharts(data, container) {
 
   Reporter.printMainTokens(stats.questions, 10);
 
-  /**
-   * Top tokens for each question
-   */
-  stats.questions.forEach(function(question) {
-    var series = [{
-      type: 'pie',
+  var oneNamePerQuestion = function(question) {
+    return [{
       name: question.prompt,
-      data:
-        Object.keys(question.tokens).map(function(t) {
-          return [t, question.tokens[t]];
-        })
+      data: Object.keys(question.tokens).map(function(t) {
+        return [t, question.tokens[t]];
+      })
     }];
-    addPieChart(question.prompt, series, container);
+  };
+  var oneNamePerToken = function(question) {
+    return Object.keys(question.tokens).map(function(t) {
+      return {
+        name: t,
+        data: [ question.tokens[t] ]
+      };
+    });
+  };
+
+  stats.questions.forEach(function(question) {
+    // var series = oneNamePerQuestion(question);
+    var series = oneNamePerToken(question);
+    // addPieChart(question.prompt, series, container);
+    addStackedColumns(question.prompt, series, container);
   });
 
 };
