@@ -1,9 +1,15 @@
+/**
+ * @file
+ */
+// TODO: doc
+// TODO: remove the Highcharts watermark
+
 var Reporter = require('../../src/reporter');
 
 var highchartsOptions = {
   chart: {
     plotBackgroundColor: null,
-    plotBorderWidth: 1,//null,
+    plotBorderWidth: 1,
     plotShadow: false
   },
   tooltip: {
@@ -20,9 +26,16 @@ var highchartsOptions = {
           color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
         }
       }
+    },
+    column: {
+      stacking: 'percent'
     }
   }
 };
+
+/**
+ * Each question type has an appropriate chart
+ */
 
 var setType = function(series, type) {
   series.forEach(function(s) {
@@ -41,19 +54,6 @@ var addPieChart = function(title, series, container) {
 
   setType(series, 'pie');
   chart.highcharts({
-    plotOptions: {
-      pie: {
-        allowPointSelect: true,
-        cursor: 'pointer',
-        dataLabels: {
-          enabled: true,
-          format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-          style: {
-            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-          }
-        }
-      }
-    },
     title: {
       text: title
     },
@@ -67,11 +67,6 @@ var addStackedColumns = function(title, series, container) {
   chart.highcharts({
     chart: {
       type: 'column'
-    },
-    plotOptions: {
-      column: {
-        stacking: 'percent'
-      }
     },
     title: {
       text: title
@@ -108,10 +103,10 @@ module.exports = function drawReporterCharts(data, container) {
   };
 
   stats.questions.forEach(function(question) {
-    // var series = oneNamePerQuestion(question);
-    var series = oneNamePerToken(question);
-    // addPieChart(question.prompt, series, container);
-    addStackedColumns(question.prompt, series, container);
+    var series = oneNamePerQuestion(question);
+    // var series = oneNamePerToken(question);
+    addPieChart(question.prompt, series, container);
+    // addStackedColumns(question.prompt, series, container);
   });
 
 };
