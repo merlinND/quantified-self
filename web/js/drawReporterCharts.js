@@ -33,47 +33,75 @@ var highchartsOptions = {
   }
 };
 
-/**
- * Each question type has an appropriate chart
- */
-
 var setType = function(series, type) {
   series.forEach(function(s) {
     s.type = type;
   });
 };
 
+/**
+ * Ways to generate the data series
+ */
+var oneNamePerQuestion = function(question) {
+  return [{
+    name: question.prompt,
+    data: Object.keys(question.tokens).map(function(t) {
+      return [t, question.tokens[t]];
+    })
+  }];
+};
+var oneNamePerToken = function(question) {
+  return Object.keys(question.tokens).map(function(t) {
+    return {
+      name: t,
+      data: [ question.tokens[t] ]
+    };
+  });
+};
+
+/**
+ * Ways to draw specific charts
+ */
 var addChart = function(container) {
   var chart = $('<div class="reporter-pie-chart"></div>');
   container.append(chart);
   return chart;
 };
 
-var addPieChart = function(title, series, container) {
+var addPieChart = function(question, container) {
   var chart = addChart(container);
-
+  var series = oneNamePerQuestion(question);
   setType(series, 'pie');
   chart.highcharts({
     title: {
-      text: title
+      text: question.prompt
     },
     series: series
   });
 };
 
-var addStackedColumns = function(title, series, container) {
+var addStackedColumns = function(question, container) {
   var chart = addChart(container);
-  // setType(series, 'column');
+  var series = oneNamePerToken(question);
+  setType(series, 'column');
   chart.highcharts({
     chart: {
       type: 'column'
     },
     title: {
-      text: title
+      text: question.prompt
     },
     series: series
   });
 };
+
+/**
+ * Each question type has an appropriate chart
+ * (default: pie)
+ */
+var chartTypes = {};
+chartTypes[Reporter.questionTypes.YES_NO] = addStackedColumns;
+chartTypes[Reporter.questionTypes.MULTIPLE_CHOICE] = addStackedColumns;
 
 /**
  * Add and draw a graph appropriate to each question type
@@ -85,28 +113,9 @@ module.exports = function drawReporterCharts(data, container) {
 
   Reporter.printMainTokens(stats.questions, 10);
 
-  var oneNamePerQuestion = function(question) {
-    return [{
-      name: question.prompt,
-      data: Object.keys(question.tokens).map(function(t) {
-        return [t, question.tokens[t]];
-      })
-    }];
-  };
-  var oneNamePerToken = function(question) {
-    return Object.keys(question.tokens).map(function(t) {
-      return {
-        name: t,
-        data: [ question.tokens[t] ]
-      };
-    });
-  };
-
   stats.questions.forEach(function(question) {
-    var series = oneNamePerQuestion(question);
-    // var series = oneNamePerToken(question);
-    addPieChart(question.prompt, series, container);
-    // addStackedColumns(question.prompt, series, container);
+    var drawer = chartTypes[question.questionType] || addPieChart;
+    drawer(question, container);
   });
 
 };
