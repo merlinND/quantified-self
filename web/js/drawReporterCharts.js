@@ -4,6 +4,8 @@
 // TODO: doc
 // TODO: remove the Highcharts watermark
 
+var _ = require('lodash');
+
 var Reporter = require('../../src/reporter');
 
 var highchartsOptions = {
@@ -67,31 +69,28 @@ var addChart = function(container) {
   container.append(chart);
   return chart;
 };
+var setupChart = function(container, title, series, options) {
+  var chart = addChart(container);
+  options.title = title;
+  options.series = series;
+  chart.highcharts(_.merge(options, highchartsOptions));
+};
 
 var addPieChart = function(question, container) {
-  var chart = addChart(container);
   var series = oneNamePerQuestion(question);
-  setType(series, 'pie');
-  chart.highcharts({
-    title: {
-      text: question.prompt
-    },
-    series: series
+  setupChart(container, question.prompt, series, {
+    chart: {
+      type: 'pie'
+    }
   });
 };
 
 var addStackedColumns = function(question, container) {
-  var chart = addChart(container);
   var series = oneNamePerToken(question);
-  setType(series, 'column');
-  chart.highcharts({
+  setupChart(container, question.prompt, series, {
     chart: {
       type: 'column'
-    },
-    title: {
-      text: question.prompt
-    },
-    series: series
+    }
   });
 };
 
