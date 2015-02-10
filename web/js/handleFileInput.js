@@ -1,3 +1,5 @@
+var drawReporterCharts = require('./drawReporterCharts.js');
+
 module.exports = function handleFileInput(e) {
   console.log(e);
   if(!e || !e.target || !e.target.files) {
@@ -19,8 +21,11 @@ module.exports = function handleFileInput(e) {
 
      try {
         parsed = JSON.parse(contents);
-        // TODO: start processing
-        console.log(parsed);
+        console.log('Used data loaded.');
+
+        var container = $('#reporter-charts');
+        container.empty();
+        drawReporterCharts(parsed, container);
      } catch(error) {
       console.err(error);
      }

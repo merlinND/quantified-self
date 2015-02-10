@@ -2,9 +2,8 @@ $(function () {
   'use strict';
 
   var drawExampleChart = require('./drawExampleChart.js');
-  var handleFileInput = require('./handleFileInput.js');
-
   var drawReporterCharts = require('./drawReporterCharts.js');
+  var handleFileInput = require('./handleFileInput.js');
 
   var sampleData;
   try {
