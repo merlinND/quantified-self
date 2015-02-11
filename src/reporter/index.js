@@ -4,25 +4,22 @@
  * Expected format: JSON
  */
 
+var getTopTokens = require('./get-top-tokens.js');
+
 /**
  * Go through each question and print the most common tokens
  * @param `question` The questions object, as prepared by `extractTokens`
- * @param `n` Number of tokens to print at most
+ * @param `n` Number of tokens to print at most. Defaults to -1 (no limit).
  */
 var printMainTokens = function(questions, n) {
-  n = n || -1;
-
   var validQuestions = questions.filter(function(q) { return q.tokens; });
   validQuestions.forEach(function(q) {
     console.log(q.prompt);
 
-    var sortByCount = function(a, b) {
-      return q.tokens[a] - q.tokens[b];
-    };
-    var tokens = Object.keys(q.tokens).sort(sortByCount);
+    var topTokens = getTopTokens(q, n);
 
-    for(var i = tokens.length - 1; i >= 0 && i > (tokens.length - n); i -= 1) {
-      var t = tokens[i];
+    for(var i = 0; i < topTokens.length; i += 1) {
+      var t = topTokens[i];
       var count = q.tokens[t];
       var proportion = (count / q.occurrences) * 100;
 
