@@ -25,7 +25,14 @@ module.exports = function getTopTokens(question, n) {
     return function(element, i) {
       return (i < n);
     };
-  }
+  };
 
-  return Object.keys(question.tokens).sort(sortByCountReverse).filter(firstN);
+
+  var topTokens = {};
+  var keys = Object.keys(question.tokens).sort(sortByCountReverse).filter(firstN(n));
+  keys.forEach(function(t) {
+    topTokens[t] = question.tokens[t];
+  })
+
+  return topTokens;
 }

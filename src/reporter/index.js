@@ -18,8 +18,7 @@ var printMainTokens = function(questions, n) {
 
     var topTokens = getTopTokens(q, n);
 
-    for(var i = 0; i < topTokens.length; i += 1) {
-      var t = topTokens[i];
+    Object.keys(topTokens).forEach(function(t) {
       var count = q.tokens[t];
       var proportion = (count / q.occurrences) * 100;
 
@@ -33,7 +32,7 @@ var printMainTokens = function(questions, n) {
 
       console.log(spaces + proportion.toFixed(1) + '% | ' +
         t + ' (' + count + ')');
-    }
+    });
     console.log();
   });
 };
@@ -41,6 +40,7 @@ var printMainTokens = function(questions, n) {
 
  module.exports = {
   getStats: require('./getStats.js'),
+  getTopTokens: getTopTokens,
   printMainTokens: printMainTokens,
   filters: require('./filters.js'),
   groupBy: require('./groupBy.js'),
