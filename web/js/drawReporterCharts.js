@@ -104,13 +104,24 @@ chartTypes[Reporter.questionTypes.MULTIPLE_CHOICE] = addStackedColumns;
 
 /**
  * Add and draw a graph appropriate to each question type
+ *
+ * @param `n` Most number of answers to include for a question.
+ *            Defaults to 10. Pass -1 to always include all answers.
  */
-module.exports = function drawReporterCharts(data, container) {
+module.exports = function drawReporterCharts(data, container, n) {
   'use strict';
+  n = n || 10;
 
   var stats = Reporter.getStats(data);
 
-  Reporter.printMainTokens(stats.questions, 10);
+  // Log textual summary
+  Reporter.printMainTokens(stats.questions, n);
+
+  // Retain only `n` answers per questions
+  // TODO: then we no longer add up to 100%, we need an 'other' category to make up for it
+  stats.questions.forEach(function(q) {
+    q.tokens = Reporter.getTopTokens(q, n);
+  });
 
   stats.questions.forEach(function(question) {
     var drawer = chartTypes[question.questionType] || addPieChart;
