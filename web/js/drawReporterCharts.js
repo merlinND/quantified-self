@@ -71,7 +71,7 @@ var addChart = function(container) {
 };
 var setupChart = function(container, title, series, options) {
   var chart = addChart(container);
-  options.title = title;
+  options.title = {text: title};
   options.series = series;
   chart.highcharts(_.merge(options, highchartsOptions));
 };
@@ -118,7 +118,7 @@ module.exports = function drawReporterCharts(data, container, n) {
   Reporter.printMainTokens(stats.questions, n);
 
   // Retain only `n` answers per questions
-  // TODO: then we no longer add up to 100%, we need an 'other' category to make up for it
+  // TODO: then we no longer add up to 100%, we need an 'Other' category to make up for it
   stats.questions.forEach(function(q) {
     q.tokens = Reporter.getTopTokens(q, n);
   });
