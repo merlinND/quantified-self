@@ -8,7 +8,14 @@ var _ = require('lodash');
 
 var Reporter = require('../../src/reporter');
 
+// Set theme
+require('../bower_components/highcharts/themes/grid-light');
+
 var highchartsOptions = {
+  // Color scheme based on `grid-light.js`
+  // (+ neutral color for 'Other' category)
+  colors: ["#7cb5ec", "#f7a35c", "#90ee7e", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee",
+    "#55BF3B", "#DF5353", "#7798BF", "#cccccc"],
   chart: {
     plotBackgroundColor: null,
     plotBorderWidth: 1,
@@ -118,9 +125,8 @@ module.exports = function drawReporterCharts(data, container, n) {
   Reporter.printMainTokens(stats.questions, n);
 
   // Retain only `n` answers per questions
-  // TODO: then we no longer add up to 100%, we need an 'Other' category to make up for it
   stats.questions.forEach(function(q) {
-    q.tokens = Reporter.getTopTokens(q, n);
+    q.tokens = Reporter.getTopTokens(q, n, true);
   });
 
   stats.questions.forEach(function(question) {
